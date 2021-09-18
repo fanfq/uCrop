@@ -2,9 +2,12 @@ package com.yalantis.ucrop.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.os.Build;
@@ -16,6 +19,7 @@ import com.yalantis.ucrop.R;
 import com.yalantis.ucrop.callback.OverlayViewChangeListener;
 import com.yalantis.ucrop.util.RectUtils;
 
+import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -293,14 +297,40 @@ public class OverlayView extends View {
         }
     }
 
+    //update by fred 2021-9-17
+    private Bitmap getBitmapByAssetsNameRGB(Context context, String name){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        options.inMutable = true;
+
+        try {
+            return BitmapFactory.decodeStream(context.getAssets().open(name),new Rect(),options);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     /**
      * Along with image there are dimmed layer, crop bounds and crop guidelines that must be drawn.
+     * remove drawcrop
      */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         drawDimmedLayer(canvas);
-        drawCropGrid(canvas);
+
+        //drawCropGrid(canvas);//画参考线
+
+        //根据图片话参考图
+        //fred
+
+        Bitmap bitmap = getBitmapByAssetsNameRGB(getContext(), "id_photo.png");
+        float x = mCropViewRect.centerX() - bitmap.getWidth()/2;
+        float y = mCropViewRect.centerY() - bitmap.getHeight()/2;
+        canvas.drawBitmap(bitmap,x,y,mCropFramePaint);
+        canvas.save();
+        canvas.restore();
     }
 
     @Override

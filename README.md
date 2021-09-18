@@ -1,3 +1,21 @@
+#修改裁切辅助线,不规则辅助线通过图片的方式实现。
+
+效果如下
+
+<img src="fred_preview.jpeg" >
+
+修改内容，如下
+
+<img src="fred_change.png">
+
+
+源项目地址：
+
+[uCrop](https://github.com/Yalantis/uCrop)
+
+
+
+
 # uCrop - Image Cropping Library for Android
 
 #### This project aims to provide an ultimate and flexible image cropping experience. Made in [Yalantis](https://yalantis.com/?utm_source=github)

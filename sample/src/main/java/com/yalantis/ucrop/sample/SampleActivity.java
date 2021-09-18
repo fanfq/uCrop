@@ -86,6 +86,7 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == requestMode) {
                 final Uri selectedUri = data.getData();
@@ -232,7 +233,14 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
 
         UCrop uCrop = UCrop.of(uri, Uri.fromFile(new File(getCacheDir(), destinationFileName)));
 
-        uCrop = basisConfig(uCrop);
+        // fred
+        // 一寸照片裁切
+        // 宽高比 5：7
+        uCrop.withAspectRatio(5, 7);
+        // 图片大小
+        uCrop.withMaxResultSize(295, 413);
+
+        //uCrop = basisConfig(uCrop);
         uCrop = advancedConfig(uCrop);
 
         if (requestMode == REQUEST_SELECT_PICTURE_FOR_FRAGMENT) {       //if build variant = fragment
